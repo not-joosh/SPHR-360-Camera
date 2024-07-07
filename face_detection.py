@@ -1,63 +1,96 @@
 import cv2
+import numpy as np
 from ultralytics import YOLO
-import math
+import threading
+import torch
 
-# Load model
-model = YOLO("faces.pt")  
+class FaceDetection:
+    def __init__(self, model_path, label_path, resolution):
+        self.model = YOLO(model_path)
+        self.class_list = self.load_labels(label_path)
+        self.cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)  
+        self.cap.set(cv2.CAP_PROP_FRAME_WIDTH, resolution[0])
+        self.cap.set(cv2.CAP_PROP_FRAME_HEIGHT, resolution[1])
+        self.is_running = True
+        self.frame = None
+        self.lock = threading.Lock()  
 
-# start webcam
-cap = cv2.VideoCapture(0)
+    def load_labels(self, label_path):
+        with open(label_path, "r") as file:
+            data = file.read().strip()
+        return data.split("\n")
 
-#setting the capture resolution to 640x480
-cap.set(3, 640) # set width
-cap.set(4, 480) # set height
+    def capture_frames(self):
+        while self.is_running:
+            success, frame = self.cap.read()
+            if success:
+                with self.lock:
+                    self.frame = frame
+            else:
+                print("Error: Unable to capture frame")
+                break
 
-#open text file containing labels
-my_file = open("coco1.txt", "r")
-data = my_file.read()
-class_list = data.split("\n")
+    def detect_faces(self):
+        '''
+        Detect faces in the frame and display the frame.
+        '''
+        while self.is_running:
+            if self.frame is not None:
+                with self.lock:
+                    frame_copy = self.frame.copy()
 
-while True:
-    success, frame = cap.read()
+                # Perform bounding box detection
+                results = self.model(frame_copy, stream=True)
 
-    # Perform bounding box
-    results = model(frame, stream=True)
-    # coordinates
-    for r in results:
-        boxes = r.boxes
+                for r in results:
+                    boxes = r.boxes
+                    for box in boxes:
+                        x1, y1, x2, y2 = map(int, box.xyxy[0])
 
-        for box in boxes:
-            # bounding box
-            x1, y1, x2, y2 = box.xyxy[0] #returns coordinates with the format [x1, y1, x2, y2]
-            x1, y1, x2, y2 = int(x1), int(y1), int(x2), int(y2) # convert to int values
+                        # Draw bounding box
+                        cv2.rectangle(frame_copy, (x1, y1), (x2, y2), (255, 0, 255), 2)
 
-            # put box in cam
-            cv2.rectangle(frame, (x1, y1), (x2, y2), (255, 0, 255), 3)
+                        # Convert tensor to float and then round
+                        confidence = round(float(box.conf[0].cpu()), 2)
+                        print("Confidence --->", confidence)
 
-            # confidence
-            confidence = math.ceil((box.conf[0]*100))/100
-            print("Confidence --->",confidence)
+                        cls = int(box.cls[0])
+                        label = f"{self.class_list[cls]}: {confidence}"
 
-            # class name
-            cls = int(box.cls[0])
-            print("Class name -->", class_list[cls])
+                        # center point of box
+                        center_x = (x1 + x2) // 2
+                        center_y = (y1 + y2) // 2
 
-            # object details
-            org = [x1, y1]
-            font = cv2.FONT_HERSHEY_SIMPLEX
-            fontScale = 1
-            color = (255, 0, 0)
-            thickness = 2
+                        cv2.circle(frame_copy, (center_x, center_y), 1, (255,255, 0), -1)
 
-            cv2.putText(frame, class_list[cls], org, font, fontScale, color, thickness)
-  
-    # Display frame
-    cv2.imshow("Video Capture", frame)
-    
-    # Break the loop if 'q' is pressed
-    if cv2.waitKey(1) & 0xFF == ord('q'):
-        break
+                        #center point of frame
+                        frame_center_x = frame_copy.shape[1] // 2
+                        frame_center_y = frame_copy.shape[0] // 2
 
-# Release the capture
-cap.release()
-cv2.destroyAllWindows()
+                        cv2.circle(frame_copy, (frame_center_x, frame_center_y), 1, (0,0,255), 0)
+
+                        # Draw class label
+                        cv2.putText(
+                            frame_copy, label, (x1, y1 - 10),
+                            cv2.FONT_HERSHEY_SIMPLEX, 0.5,
+                            (255, 0, 0), 1, cv2.LINE_AA
+                        )
+
+                # Display the frame with a reduced refresh rate
+                cv2.imshow("Video Capture", frame_copy)
+                if cv2.waitKey(1) & 0xFF == ord('q'):
+                    self.is_running = False
+
+        # Release resources
+        self.cap.release()
+        cv2.destroyAllWindows()
+
+    def run(self):
+        frame_thread = threading.Thread(target=self.capture_frames)
+        frame_thread.start()
+
+        self.detect_faces()
+
+        frame_thread.join()
+
+
