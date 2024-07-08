@@ -9,12 +9,12 @@ class FaceDetection:
         self.class_list = self.load_labels(label_path)
         # Capture for with respect to the OS
         if os_type == "windows":
-            self.cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)
+            self.cap = cv2.VideoCapture(1, cv2.CAP_DSHOW)
         else:
-            self.cap = cv2.VideoCapture(0, cv2.CAP_V4L2)
+            self.cap = cv2.VideoCapture(1, cv2.CAP_V4L2)
         # Video capture for linux
         if not self.cap.isOpened():
-            self.cap = cv2.VideoCapture(0, cv2.CAP_V4L2)
+            self.cap = cv2.VideoCapture(1, cv2.CAP_V4L2)
         self.cap.set(cv2.CAP_PROP_FRAME_WIDTH, resolution[0])
         self.cap.set(cv2.CAP_PROP_FRAME_HEIGHT, resolution[1])
         self.cap.set(cv2.CAP_PROP_FPS, 30)

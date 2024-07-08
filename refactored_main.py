@@ -2,13 +2,24 @@
 import cv2
 import time
 from refactored_tests import FaceDetection
+import serial
+
+# Create a serial object
+ser = serial.Serial('COM3', 9600)  # Replace 'COM1' with the appropriate port and '9600' with the desired baud rate
+
+# Use the serial object for communication
+# Example: ser.write(b'Hello')  # Write data to the serial port
+# Example: data = ser.read()  # Read data from the serial port
+
+# Close the serial connection when done
+
 
 if __name__ == "__main__":
 
     # Setting up the model and necessary paths
     model_path = "faces_v7_ncnn_model"
     label_path = "coco1.txt"
-    resolution = (320, 320)
+    resolution = (1280, 720)
     enable_zoom = True  # Disable or Enable zooming
 
     # Initialize the FaceDetection class
@@ -46,6 +57,8 @@ if __name__ == "__main__":
 
                     print("Combined Face Center Offset (x, y):", offset_x, offset_y)
 
+                    ser.write(str(offset_x).encode() + ",".encode() + str(offset_y).encode() + "\n".encode())
+                    
                     '''
                     
                     Drawing the center lines for debugging purposes
@@ -92,4 +105,5 @@ if __name__ == "__main__":
 
         time.sleep(0.03) 
 
+    ser.close()
     face_detection.release_resources()

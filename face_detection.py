@@ -8,7 +8,7 @@ class FaceDetection:
     def __init__(self, model_path, label_path, resolution):
         self.model = YOLO(model_path)
         self.class_list = self.load_labels(label_path)
-        self.cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)  
+        self.cap = cv2.VideoCapture(1, cv2.CAP_DSHOW)  
         self.cap.set(cv2.CAP_PROP_FRAME_WIDTH, resolution[0])
         self.cap.set(cv2.CAP_PROP_FRAME_HEIGHT, resolution[1])
         self.is_running = True
