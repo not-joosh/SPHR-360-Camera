@@ -1,12 +1,16 @@
 # Main program
 import cv2
 import time
-from refactored_tests import FaceDetection
+from face_model import FaceDetection
 import serial
 
+hardwareFlag = True
 # Create a serial object
-ser = serial.Serial('COM3', 9600)  # Replace 'COM1' with the appropriate port and '9600' with the desired baud rate
-
+try:
+    ser = serial.Serial('COM3', 9600)  # Replace 'COM1' with the appropriate port and '9600' with the desired baud rate
+except:
+    hardwareFlag = False
+    print("Hardware not connected")
 # Use the serial object for communication
 # Example: ser.write(b'Hello')  # Write data to the serial port
 # Example: data = ser.read()  # Read data from the serial port
@@ -20,7 +24,7 @@ if __name__ == "__main__":
     model_path = "faces_v7_ncnn_model"
     label_path = "coco1.txt"
     resolution = (1280, 720)
-    enable_zoom = True  # Disable or Enable zooming
+    enable_zoom =  False # Disable or Enable zooming
 
     # Initialize the FaceDetection class
     face_detection = FaceDetection(model_path, label_path, resolution)
@@ -57,13 +61,9 @@ if __name__ == "__main__":
 
                     print("Combined Face Center Offset (x, y):", offset_x, offset_y)
 
-                    ser.write(str(offset_x).encode() + ",".encode() + str(offset_y).encode() + "\n".encode())
-                    
-                    '''
-                    
-                    Drawing the center lines for debugging purposes
+                    if hardwareFlag:
+                        ser.write(str(offset_x).encode() + ",".encode() + str(offset_y).encode() + "\n".encode())
 
-                    '''
                     # Drawing a dot at the offset position making it green
                     offset_pos_x = latest_frame.shape[1] // 2 + offset_x
                     offset_pos_y = latest_frame.shape[0] // 2 + offset_y
@@ -82,12 +82,6 @@ if __name__ == "__main__":
                     # TODO: Remove this section in the final version
                     print(f"Frame center: ({frame_center_x}, {frame_center_y})")
                     print(f"Offset position: ({offset_pos_x}, {offset_pos_y})")
-
-                    '''
-                    
-                    Debug ends here
-
-                    '''
 
                     # TODO: Turn zooming into a separate function
                     # Enable zoom (if required)

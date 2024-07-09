@@ -1,0 +1,14 @@
+description: Ultralytics best model trained on /content/datasets/Finger-Gesture-2/data.yaml
+author: Ultralytics
+date: '2024-07-09T22:33:17.865405'
+version: 8.2.48
+license: AGPL-3.0 License (https://ultralytics.com/license)
+docs: https://docs.ultralytics.com
+stride: 32
+task: detect
+batch: 1
+imgsz:
+- 640
+- 640
+names:
+  0: '2'
