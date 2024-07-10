@@ -43,6 +43,12 @@ We would like to thank the following contributors for their valuable contributio
 - [Andre Cortez](https://github.com/janesmith)
 - [Mohan Francis](https://github.com/janesmith)
 - [Josh Ratificar](https://github.com/johndoe)
+- [Leesandro V. Juanite](https://github.com/johndoe)
+- [Rodjean Gere](https://github.com/johndoe)
+- [Rhett Joshua Surban](https://github.com/johndoe)
+- [Alec Que Esteves]
+- [Genesis matthew Polotan](https://github.com/johndoe)
+- [Ben Caesar Cadungog](https://github.com/johndoe)
 
 ## References
 
