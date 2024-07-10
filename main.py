@@ -24,7 +24,7 @@ if __name__ == "__main__":
 
     # Initialize the models
     face_detection = FaceDetection(face_model_path, face_label_path, resolution)
-    gesture_model = GestureModel(gesture_model_path, gesture_label_path)
+    gesture_model = GestureModel(gesture_model_path, gesture_label_path, resolution=resolution)
 
 
     while face_detection.is_running:
@@ -37,10 +37,11 @@ if __name__ == "__main__":
         processed_frame, gesture_confidence = gesture_model.detect_gestures(frame)
 
         # If a gesture is detected with high confidence, take a picture
-        if gesture_confidence >= 0.7 and not gesture_model.picture_taken:
+        gesture_threshold = 0.5
+        if gesture_confidence >= gesture_threshold and not gesture_model.picture_taken:
             gesture_model.countdown_and_save(frame)
             gesture_model.picture_taken = True  # Ensure the flag is set
-        if gesture_confidence < 0.7:
+        if gesture_confidence < gesture_threshold:
             gesture_model.picture_taken = False  # Reset the flag when the gesture is no longer detected
 
         # Process frame for face detection
@@ -66,6 +67,9 @@ if __name__ == "__main__":
                 offset_x, offset_y = face_detection.calculate_offsets(all_boxes, latest_frame.shape)
 
                 print("Combined Face Center Offset (x, y):", offset_x, offset_y)
+                
+                if hardwareFlag:
+                    ser.write(str(offset_x).encode() + ",".encode() + str(offset_y).encode() + "\n".encode())
 
                 # Drawing a dot at the offset position making it green
                 offset_pos_x = latest_frame.shape[1] // 2 + offset_x
@@ -98,5 +102,7 @@ if __name__ == "__main__":
 
         time.sleep(0.03)
 
+    if hardwareFlag:
+        ser.close()
     face_detection.cap.release()
     cv2.destroyAllWindows()

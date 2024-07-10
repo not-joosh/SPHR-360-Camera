@@ -38,6 +38,10 @@ class GestureModel:
 
         for r in results:
             boxes = r.boxes
+            if not boxes:
+                print("\n*******************No gestures detected.*********************\n")
+                continue
+
             for box in boxes:
                 x1, y1, x2, y2 = map(int, box.xyxy[0])
                 cv2.rectangle(frame_copy, (x1, y1), (x2, y2), (255, 0, 255), 2)
@@ -49,6 +53,8 @@ class GestureModel:
                     self.font, 0.5,
                     (255, 0, 0), 1, cv2.LINE_AA
                 )
+                print(f"Detected gesture: {label} at ({x1}, {y1}, {x2}, {y2})")
+
         return frame_copy, self.confidence
 
     def countdown_and_save(self, frame):

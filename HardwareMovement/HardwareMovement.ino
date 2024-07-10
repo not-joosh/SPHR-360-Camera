@@ -11,6 +11,12 @@ int pinArray[] = {MOTOR_IN1, MOTOR_IN2, MOTOR_IN3, MOTOR_IN4};
 
 int servoPos = 0;
 
+// TIMEOUT STUFF
+#define TIMEOUT 8000
+unsigned long lastTime = 0;
+bool dirFlag = false;
+bool timeoutFlag = false;
+
 void setup() {
 
   // Sets up the servo object and connects the signal pin to pin 3 on the Arduino
@@ -27,6 +33,10 @@ void setup() {
 
 void loop() {
   if (Serial.available() > 0) {
+
+    lastTime = millis();
+    timeoutFlag = false;
+
     String data = Serial.readStringUntil('\n');
     int commaIndex = data.indexOf(',');
     if (commaIndex != -1) {
@@ -54,6 +64,23 @@ void loop() {
           servoPos = 90;
       }
     }
+  } else{
+
+    if (millis() - lastTime > TIMEOUT) 
+      timeoutFlag = true;
+    
+    if (timeoutFlag){
+      if (millis()%3000 == 0){
+        if (dirFlag){
+          setMotorAngle(45, true);
+          dirFlag = false;
+        } else {
+          setMotorAngle(45, false);
+          dirFlag = true;
+        }
+      }
+    }
+
   }
 }
 
