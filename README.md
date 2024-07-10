@@ -1,22 +1,26 @@
 # SPHR-360-Camera
 
-- This is temporary, needs to be finalized...
+<p align="center">
+  <img src="https://github.com/not-joosh/SPHR-360-Camera/assets/105687297/75bb5a59-28b9-4349-8916-6e86580b8bf9" alt="Banner for SPHR-360-Camera">
+</p>
 
-![Logo](path_to_your_logo.png)
+<p align="center">
+  Made by SPHR in collaboration with University of San Carlos & Soonchunhyang University
+</p>
 
-![GIF DEMO](path_to_your_demo.gif)
+<p align="center">
+  <img src="path_to_your_demo.gif" alt="GIF Demo">
+</p>
 
 ## Description
 
-SPHR-360-Camera is a project that integrates Arduino-controlled servo and stepper motors to enable 360-degree movement. The system utilizes face detection to track and follow subjects, while hand gestures trigger photo capture.
+**SPHR-360-Camera** is a project that integrates Arduino-controlled servo and stepper motors to enable 360-degree movement. The system utilizes face detection to track and follow subjects, while hand gestures trigger photo capture.
 
+## Features
 
-### Instructions for Use:
-1. Replace `path_to_your_logo.png` with the path to your project's logo image.
-2. Replace `path_to_your_demo.gif` with the path to your project's demo GIF.
-3. Save the content as `README.md` in your GitHub repository.
-
-This README provides clear sections for project description, installation instructions, tech stack used, contributors, and license information. Adjust the paths for your logo and demo accordingly to ensure they display correctly when viewed on GitHub.
+- 360-degree camera movement
+- Near-time face detection and tracking
+- Hand gesture recognition for photo capture
 
 
 ## Tech Stack
@@ -27,7 +31,7 @@ The tech stack used in this project includes:
 - Python
 - OpenCV
 - YOLO
-- Tiny YOLO
+- Blender
 
 ## Contributors
 
@@ -42,6 +46,9 @@ We would like to thank the following contributors for their valuable contributio
 
 ## References
 
+- [Arduino](https://www.arduino.cc/)
+- [OpenCV](https://opencv.org/)
+- [YOLO](https://pjreddie.com/darknet/yolo/)
 
 ## License
 
