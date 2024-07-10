@@ -38,19 +38,18 @@ The tech stack used in this project includes:
 ## Contributors
 
 We would like to thank the following contributors for their valuable contributions to this project:
-
-- [Juhee](https://github.com/janesmith)
-- [Eric](https://github.com/janesmith)
-- [William](https://github.com/janesmith)
-- [Andre Cortez](https://github.com/janesmith)
-- [Mohan Francis](https://github.com/janesmith)
-- [Josh Ratificar](https://github.com/johndoe)
-- [Leesandro V. Juanite](https://github.com/johndoe)
-- [Rodjean Gere](https://github.com/johndoe)
-- [Rhett Joshua Surban](https://github.com/johndoe)
-- [Alec Que Esteves](https://github.com/johndoe)
-- [Genesis matthew Polotan](https://github.com/johndoe)
-- [Ben Caesar Cadungog](https://github.com/johndoe)
+- [Khamidullo(William)](https://github.com/)
+- [Juhee Lee(Joy)](https://github.com/)
+- [Myeong Hoon(Eric)](https://github.com/)
+- [Andre Cortez](https://github.com/)
+- [Mohan Francis](https://github.com/)
+- [Josh Ratificar](https://github.com/not-joosh)
+- [Leesandro V. Juanite](https://github.com/)
+- [Alec Que Esteves](https://github.com/)
+- [Rodjean Gere](https://github.com/)
+- [Rhett Joshua Surban](https://github.com/)
+- [Ben Caesar Cadungog](https://github.com/)
+- [Genesis matthew Polotan](https://github.com/)
 
 ## References
 
