@@ -46,7 +46,7 @@ We would like to thank the following contributors for their valuable contributio
 - [Leesandro V. Juanite](https://github.com/johndoe)
 - [Rodjean Gere](https://github.com/johndoe)
 - [Rhett Joshua Surban](https://github.com/johndoe)
-- [Alec Que Esteves]
+- [Alec Que Esteves](https://github.com/johndoe)
 - [Genesis matthew Polotan](https://github.com/johndoe)
 - [Ben Caesar Cadungog](https://github.com/johndoe)
 
