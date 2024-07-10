@@ -32,6 +32,8 @@ The tech stack used in this project includes:
 - OpenCV
 - YOLO
 - Blender
+- Roboflow
+- Google Colab
 
 ## Contributors
 
